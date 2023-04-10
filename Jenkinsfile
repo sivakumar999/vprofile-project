@@ -111,4 +111,3 @@ file: 'target/vprofile-v2.war',
  }
 
  }
-}
