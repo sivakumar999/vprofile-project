@@ -76,14 +76,18 @@ stage('CODE ANALYSIS with SONARQUBE') {
         }
 
 stage("Quality Gate") {
- steps {
- timeout(time: 2, unit: 'MINUTES') {
- // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
- // true = set pipeline to UNSTABLE, false = don't
-waitForQualityGate abortPipeline: true
- }
- }
- }
+      steps {
+        timeout(time: 15, unit: 'MINUTES') { // If analysis takes longer than indicated time, then build will be aborted
+            waitForQualityGate abortPipeline: true
+            script{
+                def qg = waitForQualityGate() // Waiting for analysis to be completed
+                if(qg.status != 'OK'){ // If quality gate was not met, then present error
+                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                }
+            }
+        }
+      }
+    }
 
 
  }
