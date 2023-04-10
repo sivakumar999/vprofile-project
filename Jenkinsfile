@@ -78,8 +78,7 @@ stage('CODE ANALYSIS with SONARQUBE') {
 stage("Quality Gate") {
  steps {
  timeout(time: 2, unit: 'MINUTES') {
- // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate 
-fails
+ // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
  // true = set pipeline to UNSTABLE, false = don't
 waitForQualityGate abortPipeline: true
  }
