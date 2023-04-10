@@ -71,12 +71,20 @@ stage('CODE ANALYSIS with SONARQUBE') {
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
             }
 
-            timeout(time: 10, unit: 'MINUTES') {
-               waitForQualityGate abortPipeline: true
-            }
+            
           }
         }
 
+stage("Quality Gate") {
+ steps {
+ timeout(time: 2, unit: 'MINUTES') {
+ // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate 
+fails
+ // true = set pipeline to UNSTABLE, false = don't
+waitForQualityGate abortPipeline: true
+ }
+ }
+ }
 
 
  }
